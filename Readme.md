@@ -15,7 +15,7 @@ Built with the MERN stack (MongoDB, Express, React, Node.js), Insura Connect pro
 - **Responsive Design**: Optimized for all devices.
 
 ## Tech Stack
-- **Frontend**: React, Vite, Axios, Material-UI
+- **Frontend**: React, Vite, Axios, Material-UI,Tilwind css
 - **Backend**: Node.js, Express, JWT for authentication
 - **Database**: MongoDB with Mongoose ORM
 - **Storage**: MongoDB for user data and policy information
