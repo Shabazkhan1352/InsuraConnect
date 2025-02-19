@@ -1,7 +1,7 @@
 import React from 'react'
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import logo from '../../public/logo2.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div className='mt-2'>
@@ -10,10 +10,17 @@ const Navbar = () => {
         
         <div className="logo "><img className='  w-[200px]' src={logo} alt="" /></div>
         <div className="navlinks">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/policies">Polcies</NavLink>
-        <NavLink to="/renewals">Renewals</NavLink>
-        <NavLink to="/guide">Guide</NavLink>
+        {[{ name: "HOME", path: "/" }, { name: "POLICIES", path: "/policies" }, { name: "RENEWAL", path: "/renewals" }, { name: "GUIDE", path: "/guide" }].map((item) => (
+                  <NavLink
+                    key={item.name}
+                    className={({ isActive }) =>
+                      `${isActive ? "text-[#153F29] bg-[#81E687] rounded-md px-3 py-2" : "text-white"} font-medium tracking-[1px] text-sm px-3 py-2`}
+                    to={item.path}
+                    
+                  >
+                    <li>{item.name}</li>
+                  </NavLink>
+                ))}
         </div>
         <div className="profile flex items-center justify-center scale-150">
         
