@@ -10,7 +10,7 @@ Built with the MERN stack (MongoDB, Express, React, Node.js), Insura Connect pro
 - **User Dashboard**: View active policies, renewal status, and claim history.
 - **Claims Section**: Users can submit claims, and admins can approve or reject them.
 - **Admin Panel**: Manage users, policies, and claim requests.
-- **Payment Integration**: Secure payment gateway for policy purchases. ( //optional )
+- **Payment Integration**: Secure payment gateway for policy purchases. ( //optional ) [exapmle instamojo or razorpay]
 - **Notifications**: Alerts for policy expirations, claim updates, and admin approvals.(optional)
 - **Responsive Design**: Optimized for all devices.
 
