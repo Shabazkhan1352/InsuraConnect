@@ -17,8 +17,9 @@ function App() {
     },{
       path:'/signup',
       element:<Signup/>
-    },{
-      path:"/user",
+    },
+    {
+      path:"/userpanel",
       element:<Dashbaord/>
     }
   ])
