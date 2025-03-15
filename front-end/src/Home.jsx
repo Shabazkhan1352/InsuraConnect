@@ -27,6 +27,9 @@ import logo2 from './assets/logowhite.svg'
 
 import map from './assets/map.png'
 
+import {motion} from 'framer-motion'
+import {fadeIn} from './variants'
+
 
 
 const Home = () => {
@@ -97,7 +100,14 @@ const Home = () => {
         {/* hero section */}
         <div className=' mx-auto  flex justify-between   w-[80%] mt-[80px] '>
           {/* left div */}
-          <div className='flex flex-col gap-[40px]'>
+          <motion.div 
+            variants={fadeIn("right",0.5)}
+            initial = 'hidden'
+            whileInView={"show"}
+            
+            viewport={{once : true , amount: 0.7}}
+          
+          className='flex flex-col gap-[40px]'>
             <h1 className=' marcellus font-normal text-[76px] tracking-[3px] text-white leading-[110%] whitespace-nowrap'>Trusted Insurance,<br />
              Secured Peace of <br /> Mind</h1>
             <p className=' text-white '>InsuraConnect offers reliable coverage, ensuring security and peace of mind for you and your loved ones.</p>
@@ -105,12 +115,18 @@ const Home = () => {
               <button className=' w-[217px] h-[60px] bg-white rounded-[8px] text-[#313131] inter-semibold text-[18px] tracking-[0.25px] cursor-pointer'>Get Started</button>
               <button className='w-[217px] h-[60px] border-[1px] rounded-[8px] text-white inter-semibold text-[18px] tracking-[0.25px] border-white cursor-pointer'>Explore Policies</button>
             </div>
-          </div>
+          </motion.div>
           {/* right div */}
-          <div className=' flex flex-col items-end  gap-0 overflow-hidden'>
-            <div className=' h-full   '>
-              <img className=' w-[750px ] h-[665px]' sizes='' src={family} alt="" />
-            </div>
+          <div className=' flex flex-col items-end  gap-0 overflow-hidden '>
+            <motion.div
+            variants={fadeIn("up",0.5)}
+            initial = 'hidden'
+            whileInView={"show"}
+            
+            viewport={{once : true , amount: 0.7}}
+            className=' absoulte    '>
+              <img className=' w-[850px] h-[665px] ' sizes='' src={family} alt="" />
+            </motion.div>
            
           </div>
         </div>
@@ -118,11 +134,17 @@ const Home = () => {
 
       {/* our serverces */}
 
-      <div className='mx-auto flex-col items-center justify-center w-[80%] my-[100px]'>
+      <motion.div 
+      variants={fadeIn("up",0.5)}
+      initial = 'hidden'
+      whileInView={"show"}
+      
+      viewport={{once : true , amount: 0.7}}
+       className='mx-auto flex-col items-center justify-center w-[80%] my-[100px]'>
         <h4 className='poppins-medium text-[20px] font-extrabold text-[#313131] text-center   '>Our Services</h4>
         <h1 className='text-[80px] marcellus text-[#313131] flex flex-col items-center leading-[110%] justify-center mt-[10px]'><span>Better Digital Insurance </span><span>Begins Right Here</span>
         </h1>
-      </div>
+      </motion.div>
 
       {/* cards */}
       <div className=' flex flex-wrap  justify-between gap-[20px] w-[80%] mx-auto'>
@@ -206,10 +228,10 @@ const Home = () => {
             <ul className=' flex flex-col gap-[18px]'>
               <h1 className=' poppins-semibold text-[24px] whitespace-nowrap underline underline-offset-[12px]'>Quick Links</h1>
               <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/">HOME</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/aboutus">POLICIES</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/policies">POLICIES</NavLink> </li>
               <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/contact">GUIDE</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/courierer">RENEWALS</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/courierer">CLAIMS</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/renewals">RENEWALS</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/claims">CLAIMS</NavLink> </li>
 
             </ul>
           </div>

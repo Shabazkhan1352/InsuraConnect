@@ -5,6 +5,7 @@ import Signup from './components/Signup'
 import { useNavigate,createBrowserRouter,RouterProvider } from 'react-router-dom'
 import './App.css'
 import Dashbaord from './Dashbaord'
+import Product from './Product'
 
 function App() {
   const router = createBrowserRouter([
@@ -17,9 +18,14 @@ function App() {
     },{
       path:'/signup',
       element:<Signup/>
-    },{
-      path:"/user",
+    },
+    {
+      path:"/userpanel",
       element:<Dashbaord/>
+    },
+    {
+      path:"/product",
+      element:<Product/>
     }
   ])
 

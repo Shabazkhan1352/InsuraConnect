@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import logo from '../assets/logo.svg'
+import axios from 'axios'
 
 const Login = () => {
+ 
+  
   return (
     <div className=' bg-linear-to-r from-[#000000] to-[#002063] w-full h-screen flex justify-center items-center flex-col'>
 
