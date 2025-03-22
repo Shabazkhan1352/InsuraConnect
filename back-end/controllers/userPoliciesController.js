@@ -92,3 +92,26 @@ export const addUserPolicy = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+//remove policy
+export const removeUserPolicy = async (req, res) => {
+  try {
+    const { userId, policyId } = req.body;
+
+    if (!userId || !policyId) {
+      return res.status(400).json({ message: "User ID and Policy ID are required." });
+    }
+
+    // Find and delete the policy
+    const deletedPolicy = await UserPolicy.findOneAndDelete({ userId, policyId });
+
+    if (!deletedPolicy) {
+      return res.status(404).json({ message: "Policy not found for this user." });
+    }
+
+    res.status(200).json({ message: "Policy removed successfully." });
+  } catch (error) {
+    console.error("Error removing policy:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
