@@ -12,7 +12,7 @@ import { FaArrowTrendDown } from "react-icons/fa6";
 import { jwtDecode } from 'jwt-decode'
 
 
-const PolicyCard = ({ expired, active, btncolor }) => {
+const PolicyCard = ({ expired, active, btncolor  ,btntext}) => {
     const [selectedPolicy, setSelectedPolicy] = useState(null);
     const [managepolicy, setManagepolicy] = useState(null)
     const [Renewpolicy, setRenewpolicy] = useState(null)
@@ -24,24 +24,28 @@ const PolicyCard = ({ expired, active, btncolor }) => {
 
     const userId = decoded.id
     console.log(decoded)
-    useEffect(() => {
-        const fetchPolicies = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/api/user_policies/${userId}`)
 
-                if (expired) setPolicies(response.data.expiredPolicies)
-                else if (active) setPolicies(response.data.activePolicies)
-                else setPolicies(response.data.allPolicies)
-            }
-            catch (error) {
-                console.log("can't fetch policies", error)
-            }
+    const fetchPolicies = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/user_policies/${userId}`)
+
+            console.log(response.data)
+
+            if (expired) setPolicies(response.data.expiredPolicies)
+            else if (active) setPolicies(response.data.activePolicies)
+            else setPolicies(response.data.allPolicies)
         }
-        fetchPolicies()
+        catch (error) {
+            console.log("can't fetch policies", error)
+        }
+    }
+
+    useEffect(() => {
+        fetchPolicies();
+    }, [policies]);
 
 
 
-    }, [])
     console.log(policies)
 
     const handlepremuim = (num) => {
@@ -86,12 +90,38 @@ const PolicyCard = ({ expired, active, btncolor }) => {
             )
         }
     }
+
+    const handleRemovePolicy = async (policyId) => {
+        try {
+            const token = localStorage.getItem("token");
+            const decoded = jwtDecode(token);
+            const userId = decoded.id;
+
+            console.log("Removing policy:", policyId);
+            const result = await axios.delete('http://localhost:5000/api/user_policies', {
+                headers: { "Content-Type": "application/json" },
+                data: { userId, policyId }
+            });
+
+            console.log(result.data.message);
+
+            // ✅ Update the state immediately
+            setPolicies(prevPolicies => prevPolicies.filter(policy => policy._id !== policyId));
+
+            // Close popup after deletion
+            setManagepolicy(null);
+        } catch (e) {
+            console.log("Error deleting policy:", e);
+        }
+    };
+
+
     return (
-        <div className='flex  justify-between items-center'>
-            {policies.slice(0, 3).map((item, index) => {
+        <div className='flex flex-wrap  justify-between items-center'>
+            {policies.map((item, index) => {
                 return (
                     <div key={index} className=' w-[355px] h-full bg-white rounded-[14px] p-4'>
-                        <div className='flex justify-between items-start'>
+                        <div className='flex  justify-between items-start'>
                             {/* info */}
                             <div className='flex flex-col   gap-[10px]'>
                                 <p className='nunito-sans capitalize font-semibold opacity-70 text-[#202224] text-[16px]'>{item.title}</p>
@@ -113,7 +143,7 @@ const PolicyCard = ({ expired, active, btncolor }) => {
                             else if (item.status === "expired") {
                                 handleRenewPopup(item)
                             }
-                        }}  style={{ backgroundColor: btncolor || "#714FAE" }}  className={` mt-[10px] w-full h-10 rounded-[8px] text-white poppins-semibold text-[16px] cursor-pointer `}>{item.status === "active" ? "Manage Policy" : "Renew Policy"}</button>
+                        }} style={{ backgroundColor: btncolor || "#714FAE" }} className={` mt-[10px] w-full h-10 rounded-[8px] text-white poppins-semibold text-[16px] cursor-pointer `}> {btntext ? btntext : (item.status === "active" ? "Manage Policy" : "Renew Policy")}</button>
                         {/* Managepolicypopup */}
                         {managepolicy && <div key={index} className=" font-[Mypoppins] backdrop-blur-[2px] fixed  inset-0 z-10 flex items-center justify-center bg-black/50">
                             <div className="bg-white max-sm:w-[320px] max-sm:h-[200px] h-[612px] w-[552px] justify-between flex flex-col gap-[30px]  p-7.5 rounded-lg shadow-lg   ">
@@ -144,7 +174,7 @@ const PolicyCard = ({ expired, active, btncolor }) => {
                                 {/* bottom div */}
                                 <div className='w-full flex justify-between '>
 
-                                    <button className=' w-[47%] h-[40px] rounded-[8px] bg-[#FF7173] text-white cursor-pointer'>End Policy</button>
+                                    <button onClick={() => { handleRemovePolicy(managepolicy.policyId) }} className=' w-[47%] h-[40px] rounded-[8px] bg-[#FF7173] text-white cursor-pointer'>End Policy</button>
                                     <button className=' w-[47%]  h-[40px] rounded-[8px]  bg-[#714FAE] text-white cursor-pointer'>Download PDF</button>
 
                                 </div>                         </div>

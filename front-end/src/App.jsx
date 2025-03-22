@@ -10,6 +10,9 @@ import Claims from './Claims'
 import Policies from './Policies'
 import { AuthProvider } from './AuthContext'
 import { useAuth } from './AuthContext'
+import AdminPanel from './AdminPages/AdminPanel'
+import AdminPolicies from './AdminPages/AdminPolicies'
+import AdminClaims from './AdminPages/AdminClaims'
 function App() {
 const {logout, isAuthenticated} = useAuth()
 
@@ -41,7 +44,24 @@ const {logout, isAuthenticated} = useAuth()
     {
       path: "/claims",
       element: <Claims />,
+    },
+
+
+
+    {
+      path:"/adminpanel",
+      element:<AdminPanel/>
+    },
+    {
+      path : "/adminpolicies",
+      element : <AdminPolicies/>
+    },
+    {
+      path : "adminclaims",
+      element :<AdminClaims/>
     }
+
+
   ])
 
   return (

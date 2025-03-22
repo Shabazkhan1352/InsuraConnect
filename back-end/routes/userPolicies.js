@@ -1,5 +1,5 @@
 import express from "express";
-import { getUserPolicies, addUserPolicy } from "../controllers/userPoliciesController.js";
+import { getUserPolicies, addUserPolicy,removeUserPolicy } from "../controllers/userPoliciesController.js";
 
 const router = express.Router();
 
@@ -8,5 +8,8 @@ router.get("/:userId", getUserPolicies);
 
 // Route to add a new purchased policy
 router.post("/", addUserPolicy);
+//delete policy
+router.delete("/", removeUserPolicy);
+
 
 export default router;

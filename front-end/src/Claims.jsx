@@ -33,9 +33,11 @@ const Claims = () => {
 
             {/* renewable */}
             <h1 className=' poppins-semibold text-[18px]'>Renewable Policies</h1>
-            <PolicyCard active= {active} setActive={setActive}/>
+            <PolicyCard expired={expired} setExpired={setExpired}  />
+            
           <h1 className=' poppins-semibold text-[18px]'>Claimable Policies</h1>
-          <PolicyCard expired={expired} setExpired={setExpired} btncolor = "#00B69B" />
+         
+          <PolicyCard active= {active} setActive={setActive} btncolor = "#00B69B" btntext="Claim Policy"/>
           </div>
 
         </div>
