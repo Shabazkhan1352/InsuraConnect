@@ -1,4 +1,4 @@
-import UserPolicy from "../models/UserPolicy.js";
+import UserPolicy from "../models/UserPolicy.js" // Import UserPolicy Model
 import Policy from "../models/Policy.js" // Import Policy Model
 
 // Fetch active & expired policies for a user with policy details
