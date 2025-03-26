@@ -22,3 +22,5 @@ userPolicySchema.pre("save", function (next) {
 
 const UserPolicy = mongoose.model("UserPolicy", userPolicySchema);
 export default UserPolicy;
+
+
