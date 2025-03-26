@@ -1,5 +1,5 @@
 import UserPolicy from "../models/UserPolicy.js";
-import Policy from "../models/Policy.js"; // Import Policy Model
+import Policy from "../models/Policy.js" // Import Policy Model
 
 // Fetch active & expired policies for a user with policy details
 export const getUserPolicies = async (req, res) => {
