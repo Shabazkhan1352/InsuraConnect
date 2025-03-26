@@ -10,6 +10,7 @@ const Claims = () => {
   const {isAuthenticated} = useAuth()
    const [expired ,setExpired] = useState([])
     const [active ,setActive] = useState([])
+    const [isclaim,setIsclaim] = useState(true)
   return (
     <>{isAuthenticated ?  <div className='bg-[#F5F6FA] w-full flex'>
       <Sidebar />
@@ -33,11 +34,11 @@ const Claims = () => {
 
             {/* renewable */}
             <h1 className=' poppins-semibold text-[18px]'>Renewable Policies</h1>
-            <PolicyCard expired={expired} setExpired={setExpired}  />
+            <PolicyCard expired={expired} setExpired={setExpired}   />
             
           <h1 className=' poppins-semibold text-[18px]'>Claimable Policies</h1>
          
-          <PolicyCard active= {active} setActive={setActive} btncolor = "#00B69B" btntext="Claim Policy"/>
+          <PolicyCard active= {active} setActive={setActive} btncolor = "#00B69B" btntext="Claim Policy" isclaim = {isclaim} setIsclaim = {setIsclaim}/>
           </div>
 
         </div>

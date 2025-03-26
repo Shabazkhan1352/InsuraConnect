@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Menu, X, Home, FileText, User, LogOut } from "lucide-react";
 
+import userImg from '../assets/user.png'
+
 import { CiSearch } from "react-icons/ci";
 import { LiaLanguageSolid } from "react-icons/lia";
 
@@ -9,9 +11,13 @@ import pic from '../assets/shabaz.png'
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../redux/sidebarSlice";
 
+import { useAuth } from '../AuthContext';
+
 const UserNav = () => {
     const dispatch = useDispatch();
     const isOpen = useSelector((state) => state.sidebar.isOpen);
+
+    const {role,username} = useAuth()
 
     const [profile, setProfile] = useState(pic)
     return (
@@ -35,7 +41,7 @@ const UserNav = () => {
                 {/* language btn */}
             <div className=' flex gap-[15px] items-center justify-between'>
             <LiaLanguageSolid  className='w-5 h-5'/>
-            <select  name="language" id="">
+            <select className='outline-none'  name="language" id="">
                
                 <option className='poppins-light text-[14px] outline-none' value="English">English</option>
                 <option className='poppins-light text-[14px] outline-none' value="Hindi">Hindi</option>
@@ -45,10 +51,10 @@ const UserNav = () => {
             </div>
             {/* user profile */}
             <div className='flex items-center gap-[15px]' >
-                <div><img className=' w-[48px] h-[48px]' src={pic} alt="" /></div>
+                <div><img className=' w-[48px] h-[48px]' src={userImg} alt="" /></div>
                 <div className=' flex flex-col '>
-                    <p className='poppins-semibold text-[14px] tracking-[0.3px]'>Shabaz khan</p>
-                    <p className='text-black/70 poppins-regular text-[12px]'>User</p>
+                    <p className='poppins-semibold text-[14px] tracking-[0.3px]'>{username}</p>
+                    <p className='text-black/70 poppins-regular text-[12px]'>{role}</p>
                 </div>
             </div>
             </div>

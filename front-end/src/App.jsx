@@ -1,77 +1,38 @@
-import { useState } from 'react'
-import Home from './Home'
-import Login from './components/Login'
-import Signup from './components/Signup'
-import { useNavigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import Dashbaord from './Dashbaord'
-import Product from './Product'
-import Claims from './Claims'
-import Policies from './Policies'
-import { AuthProvider } from './AuthContext'
-import { useAuth } from './AuthContext'
-import AdminPanel from './AdminPages/AdminPanel'
-import AdminPolicies from './AdminPages/AdminPolicies'
-import AdminClaims from './AdminPages/AdminClaims'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Dashboard from './Dashbaord';
+import Product from './Product';
+import Claims from './Claims';
+import Policies from './Policies';
+import AdminPanel from './AdminPages/AdminPanel';
+import AdminPolicies from './AdminPages/AdminPolicies';
+import AdminClaims from './AdminPages/AdminClaims';
+import AdminLogin from './AdminPages/AdminLogin';
+import { AuthProvider } from './AuthContext';
+
 function App() {
-const {logout, isAuthenticated} = useAuth()
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <><Home /></>
-    }, {
-      path: '/login',
-      element: <Login />
-    }, {
-      path: '/signup',
-      element: <Signup />
-    },
-    
-    {
-      path: "/userpanel",
-      element: <Dashbaord />
-    },
-    {
-      path: "/product",
-      element: <Product />
-
-    },
-    {
-      path: '/policies',
-      element: <Policies />
-    },
-    {
-      path: "/claims",
-      element: <Claims />,
-    },
-
-
-
-    {
-      path:"/adminpanel",
-      element:<AdminPanel/>
-    },
-    {
-      path : "/adminpolicies",
-      element : <AdminPolicies/>
-    },
-    {
-      path : "adminclaims",
-      element :<AdminClaims/>
-    }
-
-
-  ])
-
   return (
-    <div >
+    // ✅ Move AuthProvider inside BrowserRouter
+    <BrowserRouter>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/userpanel" element={<Dashboard />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/claims" element={<Claims />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
+          <Route path="/adminpolicies" element={<AdminPolicies />} />
+          <Route path="/adminclaims" element={<AdminClaims />} />
+        </Routes>
       </AuthProvider>
-
-    </div>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

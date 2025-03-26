@@ -36,10 +36,10 @@ const {login} = useAuth()
       setError("");
 
       // Call login function from AuthContext
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("username", email);
+      localStorage.setItem("email",response.data.email)
 
-     login(response.data.token)
+
+      login(response.data.token,response.data.role,response.data.name)
       // Navigate to home page
       navigate("/userpanel");
     } catch (err) {
@@ -55,38 +55,43 @@ const {login} = useAuth()
         <div className="hidden relative md:flex w-[35%] bg-cover bg-center" style={{ backgroundImage: `url(${logo1})` }}></div>
 
         {/* Right Side - Form */}
-        <div className="w-full h-screen md:w-[75%] flex items-center absolute top 1/2 left-1/2 transform -translate-x-1/4 -translate-y-1/2justify  rounded-l-[40px] overflow-hidden">
-          <div className="w-full  bg-white p-8 rounded-lg shadow-lg">
-            <div><img className=' mx-[265px]' src={logo} alt="" /></div>
-
-            <h3 className="text-xl mr-[50px] mt-2 font-semibold text-center ">Create Account</h3>
-
-            <div className="mt-4 h-8 flex ml-40 ">
-              <button className="flex items-center mx-3 justify-center w-[30%] py-2 border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
-                <FcGoogle />
-
-                <div className="mr-2" /> Continue with Google
-              </button>
-              <button className="flex  items-center justify-center w-[30%] py-2 border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
-                < SiGithub />
-
-                <div className="mr-2" /> Continue with Github
-              </button>
-            </div>
-
-            <div className="my-4 mr-[65px] relative text-center text-gray-500">- OR -</div>
-
-            <form onSubmit={handleSignup} className="space-y-4 w-[60%] mx-[135px] items-center justify-center">
-              <input value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Username" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-500" />
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" placeholder="Phone" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-              <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-              <button value="" type="submit" className="w-full bg-purple-700 text-white p-3 rounded-md hover:bg-purple-800">Create Account</button>
-            </form>
-
-            <p className="mt-2 mr-[70px] text-center text-gray-600">Already have an account? <a href="/login" className="text-purple-700 hover:underline font-semibold">Login</a></p>
-          </div>
-        </div>
+         <div className=" w-full h-screen md:w-[70%] flex justify-center items-center absolute top 1/2 left-1/2 transform -translate-x-1/4 -translate-y-1/2justify  rounded-l-[40px] overflow-hidden">
+                    <div className="gap-[40px] w-full h-screen flex flex-col justify-center items-center   bg-white p-8 rounded-lg shadow-lg">
+                       <div className='flex flex-col items-center justify-center'>
+                        <img className='w-[230px] h-[57px] ' src={logo} alt="" />
+                      
+                      <h3 className="mt-[20px] text-3xl   font-semibold text-center ">Welcome Back</h3>
+                      
+                      <div className=" mt-[40px] flex gap-5  ">
+                        <button className="px-[38px] py-[12px] gap-5 cursor-pointer  flex items-center  justify-center border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
+                        <FcGoogle className=' text-[28px]'/>
+            
+                          <div className="" /> Continue with Google
+                        </button>
+                        <button className=" px-[38px] py-[12px] gap-5 cursor-pointer  flex  items-center justify-between border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
+                        <SiGithub className=' text-[28px]' />                
+            
+                          <div className="" /> Continue with Github
+                        </button>
+                      </div>
+                      </div> 
+            
+                      <div className="   relative text-center text-gray-500">- OR -</div>
+            
+                      <form onSubmit={handleSignup} className="space-y-4 w-[60%]  items-center justify-center ">
+                      <input value={name} onChange={(e)=>setName(e.target.value)} type="text" placeholder="Name" className="w-full p-3 border-b border-gray-300 outline-none rounded-md " />
+                        <input value={phone} onChange={(e)=>setPhone(e.target.value)} type="number" placeholder="Phone" className="w-full p-3 border-b border-gray-300 outline-none  rounded-md " />
+                        
+                        <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="Email Address" className="w-full  p-3 border-b border-gray-300 outline-none  rounded-md " />
+                        <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Password" className="w-full p-3 border-b border-gray-300 outline-none  rounded-md " />
+                       <input  type="submit" value="Create Account" className="w-full bg-purple-700 text-white  p-3 font-extrabold rounded-md hover:bg-purple-800"/>
+                      </form>
+                      
+                     
+                      <p className="  text-center text-gray-600">Already have an account ? <a href="/login" className="text-purple-700 hover:underline font-semibold">login</a></p>
+                    
+                    </div>
+                  </div>
       </div>
     </>
 
