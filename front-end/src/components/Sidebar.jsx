@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../redux/sidebarSlice";
 
@@ -14,16 +14,23 @@ import settingsIMG from '../assets/settings.svg';
 import logoutIMG from '../assets/logout.svg';
 import { useAuth } from "../AuthContext";
 
+import { jwtDecode } from "jwt-decode";
+
+
 
 
 
 
 const Sidebar = () => {
-    const { logout,isAuthenticated } = useAuth();
+    const { logout, isAuthenticated } = useAuth();
     const dispatch = useDispatch();
     const isOpen = useSelector((state) => state.sidebar.isOpen);
     const location = useLocation();
-   
+    
+
+    
+
+
 
 
 
@@ -39,9 +46,9 @@ const Sidebar = () => {
 
     return (
         <div className=" ">
-           
+
             {/* Sidebar */}
-            <div className={`flex flex-col items-center  bg-white  overflow-hidden text-black h-screen p-4 transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}
+            <div className={`flex flex-col items-center  bg-white  overflow-hidden text-black h-full p-4 transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}
             >
 
                 {/* logo plus toggle btn */}
@@ -93,7 +100,7 @@ const Sidebar = () => {
                     </button>
 
                     {/* Logout Button */}
-                    <button onClick={()=>logout()}
+                    <button onClick={() => logout()}
                         className={`p-[15px] rounded-[12px] flex items-center  hover:bg-[#F5F6FA] hover:text-[#714FAE]   cursor-pointer
         ${isOpen ? "w-[192px] h-[50px] justify-start gap-[17px]" : "w-16 h-[50px] justify-center"}`}
                     >

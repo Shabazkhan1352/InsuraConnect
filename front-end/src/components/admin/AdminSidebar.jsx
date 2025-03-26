@@ -41,7 +41,7 @@ const Sidebar = () => {
         <div className=" ">
            
             {/* Sidebar */}
-            <div className={`flex flex-col items-center  bg-white  overflow-hidden text-black h-screen p-4 transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}
+            <div className={`flex flex-col items-center  bg-white  overflow-hidden text-black h-full p-4 transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}
             >
 
                 {/* logo plus toggle btn */}

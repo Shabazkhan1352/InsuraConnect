@@ -1,42 +1,58 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
-// Create AuthContext
+import { useNavigate } from "react-router-dom";
+
 const AuthContext = createContext();
 
-// AuthProvider Component
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [role, setRole] = useState(null);
+    const [username, setUsername] = useState("");
+    const navigate = useNavigate();  // ✅ Now useNavigate works!
 
     useEffect(() => {
-        // Check if user is logged in (Example: Using localStorage)
         const token = localStorage.getItem("token");
-        setIsAuthenticated(!!token); 
+        const storedRole = localStorage.getItem("role");
+        const storedName = localStorage.getItem("name");
+
+        if (token && storedRole) {
+            setIsAuthenticated(true);
+            setRole(storedRole);
+            setUsername(storedName);
+        }
     }, []);
 
-    // ✅ Login function
-    const login = (token) => {
-        localStorage.setItem("token", token); // Store token
+    const login = (token, userRole, username) => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", userRole);
+        localStorage.setItem("name", username);
         setIsAuthenticated(true);
+        setRole(userRole);
+        setUsername(username);
     };
 
-    const signup = (token)=>{
-        localStorage.setItem("token", token); // Store token
-        setIsAuthenticated(true);
-    }
-    // ✅ Logout function
     const logout = () => {
-        localStorage.removeItem("token"); // Remove token
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("name");
         setIsAuthenticated(false);
+        setRole(null);
+        setUsername("");
+
+      
+        if (role === "admin") {
+            navigate("/adminlogin");
+        } else {
+            navigate("/login");
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout,signup }}>
+        <AuthContext.Provider value={{ isAuthenticated, role, login, logout, username }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// ✅ Export `useAuth` hook
 export const useAuth = () => {
     return useContext(AuthContext);
 };

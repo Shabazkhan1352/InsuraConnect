@@ -1,16 +1,12 @@
-import React from 'react'
+import React , {useState,useEffect} from 'react'
+import axios from 'axios'
 import { NavLink } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import family from '../src/assets/family.png'
 import Card from './components/InsuraCard'
 
 
-import car from './assets/car.svg'
-import electronics from './assets/electronics.svg'
-import health from './assets/health.svg'
-import life from './assets/life.svg'
-import home from './assets/Home.svg'
-import bike from './assets/bike.svg'
+
 import user from './assets/user.png'
 import Feedback from './components/Feedback'
 
@@ -34,38 +30,28 @@ import {fadeIn} from './variants'
 
 const Home = () => {
 
-  const cards = [
-    {
-      title: "Card Insurance",
-      desc: "Drive worry-free with our car insurance plans. Get coverage for accidents, theft, and damages, ensuring a smooth and secure ride every time.",
-      image: car
-    },
-    {
-      title: "Bike Insurance",
-      desc: "Stay safe on the road with our bike insurance. Protect yourself against accidents, theft, and repairs while enjoying a hassle-free ride.",
-      image: bike
-    },
-    {
-      title: "Home Insurance",
-      desc: "Safeguard your home and belongings with our home insurance plans. Get protection against natural disasters, theft, and unexpected damages.",
-      image: home
-    },
-    {
-      title: "Life Insurance",
-      desc: "Secure your family’s future with our life insurance policies. Enjoy financial protection and peace of mind knowing your loved ones are taken care of.",
-      image: life
-    },
-    {
-      title: "Electronic Insurance",
-      desc: "Keep your gadgets protected with our electronics insurance. Get coverage for accidental damage, breakdowns, and theft, ensuring your devices stay safe.",
-      image: electronics
-    },
-    {
-      title: "Health Insurance",
-      desc: "Your health is our priority. Our health insurance plans cover medical expenses, hospital stays, and emergencies, giving you peace of mind.",
-      image: health
-    },
-  ]
+
+  const [products, setProducts] = useState([])
+      useEffect(() => {
+          const fetchProducts = async () => {
+              try {
+                  const response = await axios.get('http://localhost:5000/api/policies')
+                  setProducts(response.data)
+              }
+              catch (error) {
+                  console.log("can't fetch policies", error)
+              }
+          }
+          fetchProducts()
+  
+  
+  
+      }, [])
+      console.log(products)
+
+      
+
+ 
 
   const feedback = [
     {
@@ -134,24 +120,20 @@ const Home = () => {
 
       {/* our serverces */}
 
-      <motion.div 
-      variants={fadeIn("up",0.5)}
-      initial = 'hidden'
-      whileInView={"show"}
-      
-      viewport={{once : true , amount: 0.7}}
+      <div 
+     
        className='mx-auto flex-col items-center justify-center w-[80%] my-[100px]'>
         <h4 className='poppins-medium text-[20px] font-extrabold text-[#313131] text-center   '>Our Services</h4>
         <h1 className='text-[80px] marcellus text-[#313131] flex flex-col items-center leading-[110%] justify-center mt-[10px]'><span>Better Digital Insurance </span><span>Begins Right Here</span>
         </h1>
-      </motion.div>
+      </div>
 
       {/* cards */}
       <div className=' flex flex-wrap  justify-between gap-[20px] w-[80%] mx-auto'>
-        {cards.map((item, index) => {
+        {products.slice(0,6).map((item, index) => {
           return (
             <div key={index} className=' shadow-2xl' >
-              <Card title={item.title} desc={item.desc} image={item.image} />
+              <Card title={item.title} desc={item.description}  />
             </div>
           )
         })}
