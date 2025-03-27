@@ -13,6 +13,7 @@ import claimsIMG from '../../assets/claims.svg';
 import settingsIMG from '../../assets/settings.svg';
 import logoutIMG from '../../assets/logout.svg';
 import { useAuth } from "../../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,6 +24,7 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const isOpen = useSelector((state) => state.sidebar.isOpen);
     const location = useLocation();
+    const navigate = useNavigate()
    
 
 
@@ -93,7 +95,10 @@ const Sidebar = () => {
                     </button>
 
                     {/* Logout Button */}
-                    <button onClick={()=>logout()}
+                    <button onClick={()=>{
+                        navigate('/adminlogin')
+                        logout()
+                    }}
                         className={`p-[15px] rounded-[12px] flex items-center  hover:bg-[#F5F6FA] hover:text-[#714FAE]   cursor-pointer
         ${isOpen ? "w-[192px] h-[50px] justify-start gap-[17px]" : "w-16 h-[50px] justify-center"}`}
                     >
