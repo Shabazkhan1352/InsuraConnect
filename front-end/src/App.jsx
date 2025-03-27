@@ -15,8 +15,8 @@ import { AuthProvider } from './AuthContext';
 function App() {
   return (
     // ✅ Move AuthProvider inside BrowserRouter
-    <BrowserRouter>
       <AuthProvider>
+    <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -30,8 +30,8 @@ function App() {
           <Route path="/adminpolicies" element={<AdminPolicies />} />
           <Route path="/adminclaims" element={<AdminClaims />} />
         </Routes>
-      </AuthProvider>
     </BrowserRouter>
+      </AuthProvider>
   );
 }
 
