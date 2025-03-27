@@ -15,7 +15,7 @@ const FeaturedInsurance = () => {
   useEffect(() => {
     const fetchTopPolicies = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/toppolicies");
+        const response = await axios.get("https://insuraconnect.onrender.com/api/admin/toppolicies");
         setTopPolicies(response.data);
       } catch (error) {
         console.error("Error fetching policies:", error);

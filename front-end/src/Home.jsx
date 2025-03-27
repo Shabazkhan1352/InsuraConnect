@@ -35,7 +35,7 @@ const Home = () => {
       useEffect(() => {
           const fetchProducts = async () => {
               try {
-                  const response = await axios.get('http://localhost:5000/api/policies')
+                  const response = await axios.get('https://insuraconnect.onrender.com/api/policies')
                   setProducts(response.data)
               }
               catch (error) {

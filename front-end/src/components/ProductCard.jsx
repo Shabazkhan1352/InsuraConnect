@@ -19,7 +19,7 @@ const ProductCard = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/policies')
+                const response = await axios.get('https://insuraconnect.onrender.com/api/policies')
                 setProducts(response.data)
             }
             catch (error) {
@@ -35,7 +35,7 @@ const ProductCard = () => {
     const processPayment = async (name,email,userId, policyId, amount, title, isRenewal = false) => {
         try {
             // 1. Request backend to create an order
-            const { data } = await axios.post('http://localhost:5000/api/payments/create-order', {
+            const { data } = await axios.post('https://insuraconnect.onrender.com/api/payments/create-order', {
                 userId,
                 policyId,
                 amount
@@ -57,7 +57,7 @@ const ProductCard = () => {
                 handler: async (response) => {
                     try {
                         // 3. Verify payment after completion
-                        const verifyRes = await axios.post("http://localhost:5000/api/payments/verify-payment", {
+                        const verifyRes = await axios.post("https://insuraconnect.onrender.com/api/payments/verify-payment", {
                             ...response,
                             userId,
                             policyId
@@ -70,7 +70,7 @@ const ProductCard = () => {
                                 fetchPolicies(); // Refresh user policies after renewal
                             } else {
                                 // Add policy after successful payment
-                                await axios.post('http://localhost:5000/api/user_policies', {
+                                await axios.post('https://insuraconnect.onrender.com/api/user_policies', {
                                     userId,
                                     policyId
                                 });

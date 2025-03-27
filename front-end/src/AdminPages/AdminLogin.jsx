@@ -33,7 +33,7 @@ const AdminLogin = () => {
    
 
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/login", {
+      const response = await axios.post("https://insuraconnect.onrender.com/api/admin/login", {
         email,
         password
       });

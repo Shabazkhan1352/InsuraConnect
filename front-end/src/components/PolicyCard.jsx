@@ -35,7 +35,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
 
     const fetchPolicies = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/user_policies/${userId}`)
+            const response = await axios.get(`https://insuraconnect.onrender.com/user_policies/${userId}`)
 
 
 
@@ -98,7 +98,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
        
         try{
             const response =await axios.post(
-                "http://localhost:5000/api/claims/claim",
+                "https://insuraconnect.onrender.com/api/claims/claim",
                 {
                     userEmail: email,
                     policyId
@@ -162,7 +162,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                 const userId = decoded.id;
 
                 console.log("Removing policy:", policyId);
-                const result = await axios.delete('http://localhost:5000/api/user_policies', {
+                const result = await axios.delete('https://insuraconnect.onrender.com/api/user_policies', {
                     headers: { "Content-Type": "application/json" },
                     data: { userId, policyId }
                 });
@@ -186,7 +186,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
     const processPayment = async (name,email,userId, policyId, amount, title, isRenewal = true) => {
         try {
             // 1. Request backend to create an order
-            const { data } = await axios.post('http://localhost:5000/api/payments/create-order', {
+            const { data } = await axios.post('https://insuraconnect.onrender.com/api/payments/create-order', {
                 userId,
                 policyId,
                 amount
@@ -208,7 +208,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                 handler: async (response) => {
                     try {
                         // 3. Verify payment after completion
-                        const verifyRes = await axios.post("http://localhost:5000/api/payments/verify-payment", {
+                        const verifyRes = await axios.post("https://insuraconnect.onrender.com/api/payments/verify-payment", {
                             ...response,
                             userId,
                             policyId
@@ -223,7 +223,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                               // Refresh user policies after renewal
                             } else {
                                 // Add policy after successful payment
-                                await axios.post('http://localhost:5000/api/user_policies', {
+                                await axios.post('https://insuraconnect.onrender.com/api/user_policies', {
                                     userId,
                                     policyId
                                 });
