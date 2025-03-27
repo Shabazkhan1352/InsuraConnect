@@ -35,7 +35,7 @@ const AdminClaims = () => {
   useEffect(() => {
     const fetchClaims = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/claims/");
+        const response = await axios.get("https://insuraconnect.onrender.com/api/claims/");
         setClaims(response.data);
       } catch (error) {
         console.log("Can't fetch policies", error);
@@ -49,7 +49,7 @@ const AdminClaims = () => {
     const answer = confirm("Are You Sure You Want to Delete this Claim ?")
     if (answer) {
       try {
-        const response = await axios.delete(`http://localhost:5000/api/claims/${ClaimId}`,
+        const response = await axios.delete(`https://insuraconnect.onrender.com/api/claims/${ClaimId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -73,7 +73,7 @@ const AdminClaims = () => {
     if (answer) {
       try {
         const response = await axios.patch(
-          `http://localhost:5000/api/claims/${ClaimId}/approve`,
+          `https://insuraconnect.onrender.com/api/claims/${ClaimId}/approve`,
           {}, // Empty object for body
           {
             headers: {

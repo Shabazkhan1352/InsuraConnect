@@ -58,3 +58,26 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
+// export const googleAuth = async (req, res) => {
+//   if (!req.user) {
+//       return res.redirect("https://insuraconnect.vercel.app/auth-failure");
+//   }
+
+//   const token = jwt.sign({ id: req.user._id, email: req.user.email , username :req.user.name }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+
+//   res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}`);
+// };
+
+// export const githubAuth = async (req, res) => {
+//   if (!req.user) {
+//     return res.redirect("https://insuraconnect.vercel.app/auth-failure");
+// }
+
+// const token = jwt.sign({ id: req.user._id, email: req.user.email , username :req.user.name }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+
+// res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}`);
+// };

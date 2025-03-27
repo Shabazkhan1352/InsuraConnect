@@ -29,7 +29,7 @@ const AdminPolicies = () => {
   useEffect(() => {
     const fetchPolicies = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/policies");
+        const response = await axios.get("https://insuraconnect.onrender.com/api/policies");
         setPolicies(response.data);
       } catch (error) {
         console.log("Can't fetch policies", error);
@@ -43,7 +43,7 @@ const AdminPolicies = () => {
       // Get token
 
       const result = await axios.post(
-        "http://localhost:5000/api/policies/",
+        "https://insuraconnect.onrender.com/api/policies/",
         {
           title,
           description,
@@ -69,7 +69,7 @@ const AdminPolicies = () => {
     const answer = confirm("Are You Sure You Want to Delete this Policy ?")
     if (answer) {
       try {
-        const response = await axios.delete(`http://localhost:5000/api/policies/${policyId}`,
+        const response = await axios.delete(`https://insuraconnect.onrender.com/api/policies/${policyId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers

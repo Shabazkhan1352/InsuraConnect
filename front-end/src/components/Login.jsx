@@ -26,7 +26,7 @@ const Login = () => {
    
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
+      const response = await axios.post("https://insuraconnect.onrender.com/api/auth/login", {
         email,
         password
       });
@@ -51,6 +51,12 @@ localStorage.setItem("email",response.data.email)
     }
   };
 
+
+  //  //for github and google login
+  //  const handleOAuthLogin = (provider) => {
+  //   window.location.href = `https://insuraconnect.onrender.com/auth/${provider}`;
+  // };
+
     
 
 
@@ -74,7 +80,7 @@ localStorage.setItem("email",response.data.email)
     
                   <div className="" /> Continue with Google
                 </button>
-                <button className=" px-[38px] py-[12px] gap-5  flex  items-center justify-between border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
+                <button  className=" px-[38px] py-[12px] gap-5  flex  items-center justify-between border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
                 <SiGithub className=' text-[28px]' />                
     
                   <div className="" /> Continue with Github

@@ -29,7 +29,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/stats");
+        const response = await axios.get("https://insuraconnect.onrender.com/api/admin/stats");
       
         setStats(response.data);
       } catch (error) {
