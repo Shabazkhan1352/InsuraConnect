@@ -35,7 +35,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
 
     const fetchPolicies = async () => {
         try {
-            const response = await axios.get(`https://insuraconnect.onrender.com/user_policies/${userId}`)
+            const response = await axios.get(`https://insuraconnect.onrender.com/api/user_policies/${userId}`)
 
 
 
