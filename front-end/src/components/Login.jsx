@@ -16,7 +16,7 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -43,6 +43,7 @@ const Login = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
+
     if (token) {
       localStorage.setItem("token", token);
       login(token, "user", "OAuth User");
@@ -50,9 +51,16 @@ const Login = () => {
     }
   }, []);
 
+  //for github and google login
   const handleOAuthLogin = (provider) => {
-    window.location.href = `http://localhost:5000/auth/${provider}`;
+    window.location.href = `https://insuraconnect.onrender.com/auth/${provider}`;
   };
+
+
+
+
+
+
   return (
     <>
       <div className="flex h-screen bg-gray-100">
