@@ -60,24 +60,48 @@ export const loginUser = async (req, res) => {
 };
 
 
-// export const googleAuth = async (req, res) => {
-//   if (!req.user) {
-//       return res.redirect("https://insuraconnect.vercel.app/auth-failure");
-//   }
+export const googleAuth = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Google authentication failed" });
+    }
 
-//   const token = jwt.sign({ id: req.user._id, email: req.user.email , username :req.user.name }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const user = req.user;
 
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, email: user.email, username: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-//   res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}`);
-// };
+    // Send token & user info to frontend
+    res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}&role=user&username=${user.name}`); // Updated
+   
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 
-// export const githubAuth = async (req, res) => {
-//   if (!req.user) {
-//     return res.redirect("https://insuraconnect.vercel.app/auth-failure");
-// }
+export const githubAuth = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "GitHub authentication failed" });
+    }
 
-// const token = jwt.sign({ id: req.user._id, email: req.user.email , username :req.user.name }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const user = req.user;
 
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, email: user.email, username: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-// res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}`);
-// };
+    // Send token & user info to frontend
+    res.redirect(`https://insuraconnect.vercel.app/auth-success?token=${token}&role=user&username=${user.name}`); // Updated
+    
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

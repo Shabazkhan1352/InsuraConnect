@@ -11,6 +11,7 @@ import AdminPolicies from './AdminPages/AdminPolicies';
 import AdminClaims from './AdminPages/AdminClaims';
 import AdminLogin from './AdminPages/AdminLogin';
 import { AuthProvider } from './AuthContext';
+import AuthSuccess from './AuthSuccess'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/adminpanel" element={<AdminPanel />} />
           <Route path="/adminpolicies" element={<AdminPolicies />} />
           <Route path="/adminclaims" element={<AdminClaims />} />
+          <Route path="/auth-success" element={<AuthSuccess />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

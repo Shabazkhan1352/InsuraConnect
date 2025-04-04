@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 
 const AuthSuccess = () => { 
     const navigate = useNavigate();
-    const { login,role } = useAuth();
+    const { login } = useAuth();
     const hasRun = useRef(false); // Prevent double execution
 
     useEffect(() => {
@@ -12,11 +12,15 @@ const AuthSuccess = () => {
         hasRun.current = true;
 
         const token = new URL(window.location.href).searchParams.get("token");
+        const role = new URL(window.location.href).searchParams.get("role");
+        const username = new URL(window.location.href).searchParams.get("username");
         console.log("Received Token:", token);
+        console.log("role :",role)
+        console.log("username :",username)
 
         if (token) {
             localStorage.setItem("token", token);
-            login(token);
+            login(token,role,username);
             if (role === "admin") {
                 navigate("/adminpanel");
             } else {
