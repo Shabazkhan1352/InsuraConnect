@@ -23,7 +23,7 @@ const {login} = useAuth()
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://insuraconnect.onrender.com/api/auth/register", {
+      const response = await axios.post("https://insuraconnect.onrender.com/auth/register", {
         name,
         email,
         phone,
