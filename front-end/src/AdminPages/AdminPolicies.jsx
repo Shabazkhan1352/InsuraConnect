@@ -17,11 +17,15 @@ const AdminPolicies = () => {
   const { isAuthenticated } = useAuth();
   const [policies, setPolicies] = useState([]);
   const [addPolicyPopUp, setaddPolicyPopUp] = useState(false)
+  const [addmorepolicypopup, setAddmorepolicypopup] = useState(false)
+
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [premium, setPremium] = useState(0)
   const [coverageAmount, setcoverageAmount] = useState(0)
+  const [benefits, setBenefits] = useState(["", "", ""]);
+
 
 
   const token = localStorage.getItem("token");
@@ -49,6 +53,7 @@ const AdminPolicies = () => {
           description,
           premium,
           coverageAmount,
+          benefits
         },
         {
           headers: {
@@ -97,6 +102,13 @@ const AdminPolicies = () => {
   const closehandlepopup = () => {
     setaddPolicyPopUp(false)
   }
+  const openaddmorepopup = () => {
+    setAddmorepolicypopup(true)
+  }
+  const closeaddmorepopup = () => {
+    setAddmorepolicypopup(false)
+  }
+ 
 
   return (
     <div>
@@ -223,6 +235,55 @@ const AdminPolicies = () => {
 
             </div>
           </div>
+          }
+          {
+            addmorepolicypopup && <div className=" font-[Mypoppins] backdrop-blur-[2px] fixed  inset-0 z-10 flex items-center justify-center bg-black/50">
+              <div className="bg-white max-sm:w-[320px] max-sm:h-[200px] h-fit w-[552px] justify-between flex flex-col gap-[20px]  p-6 rounded-lg shadow-lg   ">
+                {/* top div */}
+                <div className='flex justify-between items-center pb-5 border-b-1 border-b-[#B0B0B0] '>
+                  <h1 className="poppins-semibold text-[36px]">Add More details</h1>
+                  <button className='cursor-pointer border-[1px] border-black/50 rounded-full p-1' onClick={closeaddmorepopup}><X size={24} /></button>
+
+
+                </div>
+                {/* mid div */}
+                <div className=' w-full flex flex-col justify-between gap-[30px]'>
+                  <form onSubmit={closeaddmorepopup} action="" className="w-full flex flex-col gap-5">
+                    <div className="w-full flex flex-col gap-[13px]" >
+                      <h2 className="poppins-semibold text-[20px]">Policy Benefits</h2>
+                      {benefits.map((value, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          value={value}
+                          onChange={(e) =>
+                            setBenefits((prev) => {
+                              const newBenefits = [...prev];
+                              newBenefits[index] = e.target.value;
+                              return newBenefits;
+                            })
+                          }
+                          placeholder="Type here."
+                          className="text-[#000000] px-5 py-2.5 border-1 poppins-regular text-[16px] border-[#000000]/20 rounded-[8px] outline-none w-full"
+                        />
+                      ))}  </div>
+                   
+
+
+                    <div className='w-full '>
+
+
+                      <button className='poppins-semibold text-[16px] w-full  h-[40px] rounded-[8px]  bg-[#714FAE] text-white cursor-pointer'>Add Info</button>
+
+                    </div>
+
+                  </form>
+
+                </div>
+
+
+              </div>
+            </div>
           }
         </div>
       ) : (
