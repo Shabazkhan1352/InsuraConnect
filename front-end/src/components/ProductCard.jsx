@@ -103,7 +103,7 @@ const ProductCard = () => {
         const token = localStorage.getItem("token");
     const decoded = jwtDecode(token);
     const userId = decoded.id;
-    const name = decoded.name
+    const name = decoded.username
 const email = decoded.email
     await processPayment(name,email ,userId, policyId, amount, title, false);
     };

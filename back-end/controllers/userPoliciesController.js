@@ -1,5 +1,6 @@
 import UserPolicy from "../models/userPolicy.js" // Import UserPolicy Model
 import Policy from "../models/Policy.js" // Import Policy Model
+import mongoose from "mongoose";
 
 // Fetch active & expired policies for a user with policy details
 export const getUserPolicies = async (req, res) => {
@@ -21,6 +22,8 @@ export const getUserPolicies = async (req, res) => {
 
     userPolicies.forEach((policy) => {
       const formattedPolicy = {
+        userPolicyId: policy._id, // ✅ This is the unique MongoDB ID
+        userId: policy.userId,
         policyId: policy.policyId,
         title: policy.title,
         description: policy.description,
@@ -113,5 +116,46 @@ export const removeUserPolicy = async (req, res) => {
   } catch (error) {
     console.error("Error removing policy:", error);
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Update policy status and expiry date (on successful renewal)
+export const updatePolicyOnRenewal = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid UserPolicy ID" });
+    }
+
+    const renewDate = new Date();
+    const expiryDate = new Date(renewDate);
+    expiryDate.setMonth(expiryDate.getMonth() + 3); // Renew for 3 months
+
+    const status = "active";
+
+    const updatedPolicy = await UserPolicy.findByIdAndUpdate(
+      id,
+      {
+        status,
+        expiryDate,
+        purchaseDate: renewDate,
+      },
+      { new: true }
+    );
+
+    if (!updatedPolicy) {
+      return res.status(404).json({ message: "Policy not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Policy renewed successfully",
+      policy: updatedPolicy,
+    });
+  } catch (error) {
+    console.error("Renewal Error:", error);
+    res.status(500).json({ success: false, message: "Server error", error });
   }
 };

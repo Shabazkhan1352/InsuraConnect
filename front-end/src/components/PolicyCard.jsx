@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useEffect,useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import icon from '../assets/icon.png'
 import { WandIcon, X } from 'lucide-react'
@@ -18,7 +18,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim }) => {
-    const [selectedPolicy, setSelectedPolicy] = useState(null);
+    const [renewPolicy, setRenewPolicy] = useState(false);
     const [isAnimationDone, setIsAnimationDone] = useState(false);
     const [managepolicy, setManagepolicy] = useState(null)
     const [claimpolicy, setClaimpolicy] = useState(null)
@@ -42,6 +42,8 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
             if (expired) setPolicies(response.data.expiredPolicies)
             else if (active) setPolicies(response.data.activePolicies)
             else setPolicies(response.data.allPolicies)
+
+            console.log(policies)
         }
         catch (error) {
             console.log("can't fetch policies", error)
@@ -49,10 +51,11 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
     }
 
     useEffect(() => {
-        fetchPolicies();
-    }, [policies]);
 
-    
+        fetchPolicies();
+    }, []);
+
+
 
     const handleDownloadPDF = async (policy) => {
         const input = document.getElementById(`policy-${policy._id}`);
@@ -95,9 +98,9 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
 
     const handleClaimPopup = async (policyId) => {
         setClaimpolicy(policyId);
-       
-        try{
-            const response =await axios.post(
+
+        try {
+            const response = await axios.post(
                 "https://insuraconnect.onrender.com/api/claims/claim",
                 {
                     userEmail: email,
@@ -112,8 +115,8 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
             console.log(response.data.message)
             setClaimpolicy(null)
         }
-        catch(e){
-            console.log("cant send claim request",e);
+        catch (e) {
+            console.log("cant send claim request", e);
         }
 
         // Set selected policy
@@ -155,35 +158,35 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
     }
 
     const handleRemovePolicy = async (policyId) => {
-      
-            try {
-                const token = localStorage.getItem("token");
-                const decoded = jwtDecode(token);
-                const userId = decoded.id;
 
-                console.log("Removing policy:", policyId);
-                const result = await axios.delete('https://insuraconnect.onrender.com/api/user_policies', {
-                    headers: { "Content-Type": "application/json" },
-                    data: { userId, policyId }
-                });
+        try {
+            const token = localStorage.getItem("token");
+            const decoded = jwtDecode(token);
+            const userId = decoded.id;
 
-                console.log(result.data.message);
+            console.log("Removing policy:", policyId);
+            const result = await axios.delete('https://insuraconnect.onrender.com/api/user_policies', {
+                headers: { "Content-Type": "application/json" },
+                data: { userId, policyId }
+            });
 
-                // ✅ Update the state immediately
-                setPolicies(prevPolicies => prevPolicies.filter(policy => policy._id !== policyId));
+            console.log(result.data.message);
 
-                // Close popup after deletion
-                setManagepolicy(null);
-            } catch (e) {
-                console.log("Error deleting policy:", e);
-            }
+            // ✅ Update the state immediately
+            setPolicies(prevPolicies => prevPolicies.filter(policy => policy._id !== policyId));
 
-        
+            // Close popup after deletion
+            setManagepolicy(null);
+        } catch (e) {
+            console.log("Error deleting policy:", e);
+        }
+
+
 
 
 
     };
-    const processPayment = async (name,email,userId, policyId, amount, title, isRenewal = true) => {
+    const processPayment = async (userPolicyId, name, email, userId, policyId, amount, title, isRenewal = true) => {
         try {
             // 1. Request backend to create an order
             const { data } = await axios.post('https://insuraconnect.onrender.com/api/payments/create-order', {
@@ -191,12 +194,12 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                 policyId,
                 amount
             });
-    
+
             if (!window.Razorpay) {
                 alert("Razorpay SDK failed to load. Check your internet connection.");
                 return;
             }
-    
+
             // 2. Razorpay Payment Options
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -213,14 +216,15 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                             userId,
                             policyId
                         });
-    
+
                         if (verifyRes.data.success) {
                             alert(`Payment Successful! Policy ${isRenewal ? "Renewed" : "Activated"}.`);
-    
+
                             if (isRenewal) {
-                                
-                                fetchPolicies();
-                              // Refresh user policies after renewal
+                                activatePolicy(userPolicyId)
+                                setRenewPolicy(true)
+
+
                             } else {
                                 // Add policy after successful payment
                                 await axios.post('https://insuraconnect.onrender.com/api/user_policies', {
@@ -237,13 +241,13 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                     }
                 },
                 prefill: {
-                    name:name || "User",
-                    email:email || "user@example.com",
+                    name: name || "User",
+                    email: email || "user@example.com",
                     contact: "9999999999",
                 },
                 theme: { color: "#714FAE" },
             };
-    
+
             const razorpay = new window.Razorpay(options);
             razorpay.open();
         } catch (error) {
@@ -252,19 +256,34 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
         }
     };
 
-    const handleRenewPolicy = async (policyId, amount, title) => {
+    const handleRenewPolicy = async (userPolicyId, userId, policyId, amount, title) => {
         const answer = confirm("Are you sure you want to renew this Policy?");
-    if (!answer) return;
+        if (!answer) return;
 
-    const token = localStorage.getItem("token");
-    const decoded = jwtDecode(token);
-    const userId = decoded.id;
-    const name = decoded.name
-    const email = decoded.email
+        const token = localStorage.getItem("token");
+        const decoded = jwtDecode(token);
 
-    await processPayment(name,email,userId, policyId, amount, title);
+        const name = decoded.username
+        const email = decoded.email
+        await processPayment(userPolicyId, name, email, userId, policyId, amount, title);
+        if (renewPolicy) {
+
+        }
     };
-    
+
+    const activatePolicy = async (userPolicyId) => {
+        try {
+            const response = await axios.put(`https://insuraconnect.onrender.com/api/user_policies/${userPolicyId}`)
+            console.log(response.data.message)
+            fetchPolicies()
+
+        }
+        catch (error) {
+            console.error("Error renewing policy:", error);
+        }
+
+    }
+
 
 
     return (
@@ -296,7 +315,7 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                             }
                         }} style={{ backgroundColor: btncolor || "#714FAE" }} className={` mt-[10px] w-full h-10 rounded-[8px] text-white poppins-semibold text-[16px] cursor-pointer `}> {btntext ? btntext : (item.status === "active" ? "Manage Policy" : "Renew Policy")}
                         </button> : <button onClick={() => {
-                            handleRenewPolicy(item.policyId,item.premium,item.title)
+                            handleRenewPolicy(item.userPolicyId, item.userId, item.policyId, item.premium, item.title)
                         }} style={{ backgroundColor: btncolor || "#714FAE" }} className={` mt-[10px] w-full h-10 rounded-[8px] text-white poppins-semibold text-[16px] cursor-pointer `}> {btntext ? btntext : (item.status === "active" ? "Manage Policy" : "Renew Policy")}
                         </button>}
 
@@ -344,11 +363,11 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                                     className="w-[50%]"
                                     src="https://lottie.host/5f124da1-33df-4e35-bca8-082ac81fb0bb/Cn9vf5hYZS.lottie"
 
-                                    
+
                                     loop={false}
                                     autoplay
-                                  
-                                    
+
+
                                 />
                                     <div className='poppins-semibold text-[36px]'>Email Sent</div></div>
                             </div>
