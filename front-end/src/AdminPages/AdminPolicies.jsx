@@ -194,11 +194,16 @@ const AdminPolicies = () => {
             </div>
           </div>
           {addPolicyPopUp && <div className=" font-[Mypoppins] backdrop-blur-[2px] fixed  inset-0 z-10 flex items-center justify-center bg-black/50">
-            <div className="bg-white max-sm:w-[320px] max-sm:h-[200px] h-[612px] w-[552px] justify-between flex flex-col gap-[20px]  p-6 rounded-lg shadow-lg   ">
+            <div className="bg-white max-sm:w-[320px] max-sm:h-[200px] h-[613px] w-[552px] justify-between flex flex-col gap-[20px]  p-6 rounded-lg shadow-lg   ">
               {/* top div */}
               <div className='flex justify-between items-center pb-5 border-b-1 border-b-[#B0B0B0] '>
                 <h1 className="poppins-semibold text-[36px]">Add New Policy</h1>
-                <button className='cursor-pointer border-[1px] border-black/50 rounded-full p-1' onClick={closehandlepopup}><X size={24} /></button>
+                <div className="flex items-center gap-2">
+                  <button onClick={openaddmorepopup} className=" border-[#714FAE] border-[2px] text-[#714FAE] rounded-xl  cursor-pointer  px-4 py-1 poppins-semibold"> Add More Info</button>
+                  <button className='cursor-pointer border-[1px] border-black/50 rounded-full p-1' onClick={closehandlepopup}><X size={24} /></button>
+
+
+                </div>
               </div>
               {/* mid div */}
               <div className=' w-full flex flex-col justify-between gap-[30px]'>
