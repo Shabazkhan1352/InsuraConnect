@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import logo from '../assets/logo2.svg'
 import logo1 from '../assets/signup.png'
 import { FcGoogle } from "react-icons/fc";
