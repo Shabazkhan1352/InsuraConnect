@@ -7,6 +7,7 @@ const policySchema = new mongoose.Schema(
     premium: { type: Number, required: true },
     coverageAmount: { type: Number, required: true },
     duration: { type: Number, required: true }, // in months
+    benefits : {type : Array , required : true },
   },
   { timestamps: true }
 );

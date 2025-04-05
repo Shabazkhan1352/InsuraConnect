@@ -14,9 +14,9 @@ export const getPolicies = async (req, res) => {
 // Add a new policy (Admin only)
 export const addPolicy = async (req, res) => {
   try {
-    const { title, description, premium, coverageAmount } = req.body;
+    const { title, description, premium, coverageAmount, benefits } = req.body;
 
-    const policy = await Policy.create({ title, description, premium, coverageAmount, duration  : 3 });
+    const policy = await Policy.create({ title, description, premium, coverageAmount, duration  : 3,benefits });
 
     res.status(201).json({ message: "Policy added successfully", policy });
   } catch (error) {
