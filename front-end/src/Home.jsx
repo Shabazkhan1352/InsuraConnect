@@ -1,4 +1,4 @@
-import React , {useState,useEffect} from 'react'
+import React , {useState,useEffect,useRef} from 'react'
 import axios from 'axios'
 import { NavLink } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -26,10 +26,18 @@ import map from './assets/map.png'
 import {motion} from 'framer-motion'
 import {fadeIn} from './variants'
 
+import { useNavigate } from 'react-router-dom'
+
 
 
 const Home = () => {
+  const policyRef = useRef(null);
 
+const scrollToPolicies = () => {
+  policyRef.current?.scrollIntoView({ behavior: "smooth" });
+};
+
+const navigate = useNavigate()
 
   const [products, setProducts] = useState([])
       useEffect(() => {
@@ -98,8 +106,8 @@ const Home = () => {
              Secured Peace of <br /> Mind</h1>
             <p className=' text-white '>InsuraConnect offers reliable coverage, ensuring security and peace of mind for you and your loved ones.</p>
             <div className=' flex gap-[20px]'>
-              <button className=' w-[217px] h-[60px] bg-white rounded-[8px] text-[#313131] inter-semibold text-[18px] tracking-[0.25px] cursor-pointer'>Get Started</button>
-              <button className='w-[217px] h-[60px] border-[1px] rounded-[8px] text-white inter-semibold text-[18px] tracking-[0.25px] border-white cursor-pointer'>Explore Policies</button>
+              <button onClick={()=>{navigate('/signup')}} className=' w-[217px] h-[60px] bg-white rounded-[8px] text-[#313131] inter-semibold text-[18px] tracking-[0.25px] cursor-pointer'>Get Started</button>
+              <button onClick={scrollToPolicies} className='w-[217px] h-[60px] border-[1px] rounded-[8px] text-white inter-semibold text-[18px] tracking-[0.25px] border-white cursor-pointer'>Explore Policies</button>
             </div>
           </motion.div>
           {/* right div */}
@@ -129,10 +137,10 @@ const Home = () => {
       </div>
 
       {/* cards */}
-      <div className=' flex flex-wrap  justify-between gap-[20px] w-[80%] mx-auto'>
+      <div ref={policyRef} className=' flex flex-wrap  justify-between gap-[20px] w-[80%] mx-auto'>
         {products.slice(0,6).map((item, index) => {
           return (
-            <div key={index} className=' shadow-2xl' >
+            <div key={index} className=' shadow-2xl  transition-all hover:translate-y-[-8px]' >
               <Card title={item.title} desc={item.description}  />
             </div>
           )
@@ -210,10 +218,10 @@ const Home = () => {
             <ul className=' flex flex-col gap-[18px]'>
               <h1 className=' poppins-semibold text-[24px] whitespace-nowrap underline underline-offset-[12px]'>Quick Links</h1>
               <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/">HOME</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/policies">POLICIES</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/contact">GUIDE</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/renewals">RENEWALS</NavLink> </li>
-              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/claims">CLAIMS</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/unauth">POLICIES</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/unauth">GUIDE</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/unauth">RENEWALS</NavLink> </li>
+              <li><NavLink className="text-white/70 inter-medium text-[14px] tracking-[0.5px]" to="/unauth">CLAIMS</NavLink> </li>
 
             </ul>
           </div>

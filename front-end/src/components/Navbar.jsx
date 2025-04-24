@@ -16,7 +16,7 @@ const Navbar = () => {
              {navobj.map((item)=>{
              return(
                  <div > <li className=' border-none'>
-                 <NavLink className=" hover:underline border-none text-[#714FAE] inter-bold font-bold tracking-[3px] text-[14px] " to= {`/${item.toLowerCase()}`}>{item.toUpperCase()}</NavLink>
+                 <NavLink className=" hover:underline border-none text-[#714FAE] inter-bold font-bold tracking-[3px] text-[14px] " to= {`/unauth`}>{item.toUpperCase()}</NavLink>
                 </li></div>
                 
              )

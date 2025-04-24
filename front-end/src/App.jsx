@@ -12,6 +12,7 @@ import AdminClaims from './AdminPages/AdminClaims';
 import AdminLogin from './AdminPages/AdminLogin';
 import { AuthProvider } from './AuthContext';
 import AuthSuccess from './AuthSuccess'
+import Unauth from './components/Unauth';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
     <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/unauth" element={<Unauth />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/userpanel" element={<Dashboard />} />

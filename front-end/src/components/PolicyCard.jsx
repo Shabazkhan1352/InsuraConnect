@@ -287,7 +287,8 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
 
 
     return (
-        <div className='grid grid-cols-3 gap-[30px] w-full  justify-between items-center'>
+        <>
+        {policies && policies.length > 0 ?(<div className='grid grid-cols-3 gap-[30px] w-full  justify-between items-center'>
             {policies.map((item, index) => {
                 return (
                     <div key={index} className=' w-[355px] h-full bg-white rounded-[14px] p-4'>
@@ -362,13 +363,13 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
                                 <div className='bg-white text-black rounded-[9px] h-[40%] w-[40%] flex flex-col items-center justify-center'><DotLottieReact
                                     className="w-[50%]"
                                     src="https://lottie.host/5f124da1-33df-4e35-bca8-082ac81fb0bb/Cn9vf5hYZS.lottie"
-
-
+                                    
+                                    
                                     loop={false}
                                     autoplay
-
-
-                                />
+                                    
+                                    
+                                    />
                                     <div className='poppins-semibold text-[36px]'>Email Sent</div></div>
                             </div>
 
@@ -381,8 +382,9 @@ const PolicyCard = ({ expired, active, btncolor, btntext, isclaim, setIsclaim })
 
 
 
-        </div>
-
+        </div>):<div>No policies found.Please Purchase a policy first</div> }
+        
+        </>
     )
 }
 

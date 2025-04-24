@@ -6,13 +6,14 @@ import { SiGithub } from "react-icons/si";
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import axios from 'axios';
+import Loader from './Loader';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-
+  const [loading, setLoading] = useState(false)
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -20,10 +21,28 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setMessage("");
+
+    // Simple form validation
+    if (!email || !password) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    // Basic email pattern check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const response = await axios.post("https://insuraconnect.onrender.com/auth/login", {
         email,
-        password
+        password,
       });
 
       setMessage("Login successful!");
@@ -35,8 +54,11 @@ const Login = () => {
     } catch (err) {
       setError("Invalid username or password");
       setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   useEffect(() => {
     // Check if token is present in URL after OAuth login
@@ -63,7 +85,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex h-screen bg-gray-100">
+      {loading ? <Loader /> : <div className="flex h-screen bg-gray-100">
         {/* Left Side - Image */}
         <div className="hidden relative md:flex w-[35%] bg-cover bg-center" style={{ backgroundImage: `url(${logo1})` }}></div>
 
@@ -73,6 +95,10 @@ const Login = () => {
             <div className='flex flex-col items-center justify-center'>
               <img className='w-[230px] h-[57px]' src={logo} alt="" />
               <h3 className="mt-[20px] text-3xl font-semibold text-center">Welcome Back</h3>
+              <br />
+              {error && <p className="text-red-600 font-medium">{error}</p>}
+              {message && <p className="text-green-600 font-medium">{message}</p>}
+
 
               <div className="mt-[40px] flex gap-5">
                 <button onClick={() => handleOAuthLogin('google')} className="px-[38px] py-[12px] gap-5 flex items-center justify-center border rounded-md shadow-sm text-gray-700 border-gray-300 hover:bg-gray-100">
@@ -91,8 +117,12 @@ const Login = () => {
             <form onSubmit={handleLogin} className="space-y-4 w-[60%] items-center justify-center">
               <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" className="w-full p-3 border-b border-gray-300 outline-none rounded-md" />
               <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-full p-3 border-b border-gray-300 outline-none rounded-md" />
-              <input type="submit" value="Login In" className="w-full bg-purple-700 text-white p-3 font-extrabold rounded-md hover:bg-purple-800" />
-            </form>
+              <input
+                type="submit"
+                value={loading ? "Logging in..." : "Login In"}
+                disabled={loading}
+                className="w-full bg-purple-700 text-white p-3 font-extrabold rounded-md hover:bg-purple-800 disabled:opacity-60 disabled:cursor-not-allowed"
+              />            </form>
 
             <div className="para flex gap-17">
               <p className="text-center text-gray-600">Don't have an account? <a href="/Signup" className="text-purple-700 hover:underline font-semibold">Signup</a></p>
@@ -100,7 +130,8 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
+
     </>
   );
 }
