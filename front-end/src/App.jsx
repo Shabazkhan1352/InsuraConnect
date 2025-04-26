@@ -1,30 +1,42 @@
-import { useState } from 'react'
-import Home from './Home'
-import Login from './components/Login'
-import Signup from './components/Signup'
-import { useNavigate,createBrowserRouter,RouterProvider } from 'react-router-dom'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Dashboard from './Dashbaord';
+import Product from './Product';
+import Claims from './Claims';
+import Policies from './Policies';
+import AdminPanel from './AdminPages/AdminPanel';
+import AdminPolicies from './AdminPages/AdminPolicies';
+import AdminClaims from './AdminPages/AdminClaims';
+import AdminLogin from './AdminPages/AdminLogin';
+import { AuthProvider } from './AuthContext';
+import AuthSuccess from './AuthSuccess'
+import Unauth from './components/Unauth';
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element:<><Home/></>
-    },{
-      path:'/login',
-      element:<Login/>
-    },{
-      path:'/signup',
-      element:<Signup/>
-    }
-  ])
-
   return (
-    <>
-<RouterProvider router={router}/>
-      
-    </>
-  )
+    // ✅ Move AuthProvider inside BrowserRouter
+      <AuthProvider>
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/unauth" element={<Unauth />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/userpanel" element={<Dashboard />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/claims" element={<Claims />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
+          <Route path="/adminpolicies" element={<AdminPolicies />} />
+          <Route path="/adminclaims" element={<AdminClaims />} />
+          <Route path="/auth-success" element={<AuthSuccess />} />
+        </Routes>
+    </BrowserRouter>
+      </AuthProvider>
+  );
 }
 
-export default App
+export default App;
